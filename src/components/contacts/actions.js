@@ -1,10 +1,10 @@
 import actionsTypes from './actions-types';
 
 /**
- * Add contact
+ * Create contact
  */
-export const addContact = (contact) => ({
-  type: actionsTypes.ADD_CONTACT,
+export const createContact = (contact) => ({
+  type: actionsTypes.CREATE_CONTACT,
   contact
 });
 
