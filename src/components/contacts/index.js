@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, Row, ListGroup, Button, Form
+  Container, Row, ListGroup, Button, Form, Col
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -24,7 +24,11 @@ const Contact = ({ dispatch, user }) => {
         variant="secondary"
         size="sm"
         type="button"
-        onClick={() => dispatch(createContact({ firstName, lastName, phone }))}
+        onClick={() => dispatch(createContact({
+          firstName,
+          lastName,
+          phone
+        }))}
       >
         Modifier
       </Button>
@@ -64,7 +68,6 @@ class Contacts extends Component {
         firstname: event.target.value
       }
     });
-    console.log('firstname', event.target.value);
   }
 
   handleChangeLastname(event) {
@@ -89,12 +92,11 @@ class Contacts extends Component {
 
   handleSubmit(event) {
     const { dispatch } = this.props;
-    const { form } = this.state;
-    const { firstname, lastname, phone } = form;
-    console.log('form', form);
-    event.preventDefault();
+    const { firstname, lastname, phone } = this.state;
+    console.log('formSubmit:', this.state);
     this.dispatch = dispatch;
     dispatch(createContact({ firstname, lastname, phone }));
+    event.preventDefault();
   }
 
   render() {
@@ -107,42 +109,50 @@ class Contacts extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Row>
             <Form.Group>
-              <Form.Label htmlFor="firstname">Firstname</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Your firstname"
-                value={firstname}
-                id="firstname"
-                onChange={this.handleChangeFirstname}
-              />
+              <Col>
+                <Form.Label htmlFor="firstname">Firstname</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="firstname"
+                  placeholder="Your firstname"
+                  value={firstname}
+                  id="firstname"
+                  onChange={this.handleChangeFirstname}
+                />
+              </Col>
+              <Col>
+                <Form.Label htmlFor="lastname">Lastname</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastname"
+                  placeholder="Your lastname"
+                  value={lastname}
+                  id="lastname"
+                  onChange={this.handleChangeLastname}
+                />
+              </Col>
+              <Col>
+                <Form.Label htmlFor="phone">Phone</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="phone"
+                  placeholder="0123456789"
+                  value={phone}
+                  id="phone"
+                  onChange={this.handleChangePhone}
+                  autoComplete="phone"
+                />
+              </Col>
+              <Col>
+                <br />
+                <Button
+                  variant="success"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Col>
             </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="lastname">Lastname</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Your lastname"
-                value={lastname}
-                id="lastname"
-                onChange={this.handleChangeLastname}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="phone">Phone</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="0123456789"
-                value={phone}
-                id="phone"
-                onChange={this.handleChangePhone}
-                autoComplete="phone"
-              />
-            </Form.Group>
-            <Button
-              variant="secondary"
-              type="submit"
-            >
-              Submit
-            </Button>
           </Form.Row>
         </Form>
         <Row>
