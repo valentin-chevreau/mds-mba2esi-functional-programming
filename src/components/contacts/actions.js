@@ -9,25 +9,9 @@ export const createContact = (contact) => ({
 });
 
 /**
- * Update contact
- */
-export const updateContact = (contact) => ({
-  type: actionsTypes.UPDATE_CONTACT,
-  contact
-});
-
-/**
  * Delete contact
  */
 export const deleteContact = (id) => ({
   type: actionsTypes.DELETE_CONTACT,
-  id
-});
-
-/**
- * Delete contact
- */
-export const searchContact = (id) => ({
-  type: actionsTypes.SEARCH_CONTACT,
   id
 });
