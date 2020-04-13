@@ -3,9 +3,9 @@ import {
   Button, Form, Col
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { createContact } from '../../actions';
+import { createContact, updateContact } from '../../actions';
 
-class ContactFormCreate extends Component {
+class ContactForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,65 +13,50 @@ class ContactFormCreate extends Component {
       firstname: '',
       lastname: '',
       phone: '',
-      city: '',
-      update: ''
+      city: ''
     };
     console.log('This is initialState', this.state);
-    this.handleChangeID = this.handleChangeID.bind(this);
-    this.handleChangeFirstname = this.handleChangeFirstname.bind(this);
-    this.handleChangeLastname = this.handleChangeLastname.bind(this);
-    this.handleChangePhone = this.handleChangePhone.bind(this);
-    this.handleChangeCity = this.handleChangeCity.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeID(event) {
+  handleOnChange(event) {
     this.setState({
-      id: event.target.value
-    });
-  }
-
-  handleChangeFirstname(event) {
-    this.setState({
-      firstname: event.target.value
-    });
-  }
-
-  handleChangeLastname(event) {
-    this.setState({
-      lastname: event.target.value
-    });
-  }
-
-  handleChangePhone(event) {
-    this.setState({
-      phone: event.target.value
-    });
-  }
-
-  handleChangeCity(event) {
-    this.setState({
-      city: event.target.value
+      [event.target.name]: event.target.value
     });
   }
 
   handleSubmit(event) {
-    const { dispatch } = this.props;
+    const { dispatch, update } = this.props;
     const {
       id, firstname, lastname, phone, city
     } = this.state;
     this.dispatch = dispatch;
-    dispatch(createContact({
-      id, firstname, lastname, phone, city
-    }));
+    if (update) {
+      if (update !== null) {
+        dispatch(updateContact({
+          id, firstname, lastname, phone, city
+        }));
+        this.setState({
+          update: false
+        });
+        event.preventDefault();
+      }
+    } else {
+      dispatch(createContact({
+        id, firstname, lastname, phone, city
+      }));
+      event.preventDefault();
+    }
     console.log('submitState', this.state);
-    event.preventDefault();
   }
 
   render() {
     const {
       firstname, lastname, phone, city, id
     } = this.state;
+
+    const { update } = this.props;
 
     return (
       <Col>
@@ -80,58 +65,121 @@ class ContactFormCreate extends Component {
             <Form.Group>
               <Col>
                 <Form.Label htmlFor="id">ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="id"
-                  id="id"
-                  value={id}
-                  autoComplete="id"
-                  onChange={this.handleChangeID}
-                />
+                {update
+                  ? (
+                    <Form.Control
+                      type="text"
+                      name="id"
+                      id="id"
+                      defaultValue={update.id}
+                      autoComplete="id"
+                      onChange={(event) => this.handleOnChange(event)}
+                      readOnly
+                    />
+                  )
+                  : (
+                    <Form.Control
+                      type="text"
+                      name="id"
+                      id="id"
+                      defaultValue={id}
+                      autoComplete="id"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  )}
               </Col>
               <Col>
                 <Form.Label htmlFor="firstname">Firstname</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="firstname"
-                  value={firstname}
-                  id="firstname"
-                  autoComplete="firstname"
-                  onChange={this.handleChangeFirstname}
-                />
+                {update
+                  ? (
+                    <Form.Control
+                      type="text"
+                      name="firstname"
+                      defaultValue={update.firstname}
+                      id="firstname"
+                      autoComplete="firstname"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  ) : (
+                    <Form.Control
+                      type="text"
+                      name="firstname"
+                      defaultValue={firstname}
+                      id="firstname"
+                      autoComplete="firstname"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  )}
               </Col>
               <Col>
                 <Form.Label htmlFor="lastname">Lastname</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="lastname"
-                  value={lastname}
-                  id="lastname"
-                  autoComplete="lastname"
-                  onChange={this.handleChangeLastname}
-                />
+                {update
+                  ? (
+                    <Form.Control
+                      type="text"
+                      name="lastname"
+                      defaultValue={update.lastname}
+                      id="lastname"
+                      autoComplete="lastname"
+                      onChange={(event) => this.handleOnChange(event)}
+
+                    />
+                  ) : (
+                    <Form.Control
+                      type="text"
+                      name="lastname"
+                      defaultValue={lastname}
+                      id="lastname"
+                      autoComplete="lastname"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  )}
               </Col>
               <Col>
                 <Form.Label htmlFor="phone">Phone</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="phone"
-                  value={phone}
-                  id="phone"
-                  autoComplete="phone"
-                  onChange={this.handleChangePhone}
-                />
+                {update
+                  ? (
+                    <Form.Control
+                      type="text"
+                      name="phone"
+                      defaultValue={update.phone}
+                      id="phone"
+                      autoComplete="phone"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  ) : (
+                    <Form.Control
+                      type="text"
+                      name="phone"
+                      value={phone}
+                      id="phone"
+                      autoComplete="phone"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  )}
               </Col>
               <Col>
                 <Form.Label htmlFor="city">City</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="city"
-                  value={city}
-                  id="city"
-                  autoComplete="city"
-                  onChange={this.handleChangeCity}
-                />
+                {update
+                  ? (
+                    <Form.Control
+                      type="text"
+                      name="city"
+                      defaultValue={update.city}
+                      id="city"
+                      autoComplete="city"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  ) : (
+                    <Form.Control
+                      type="text"
+                      name="city"
+                      value={city}
+                      id="city"
+                      autoComplete="city"
+                      onChange={(event) => this.handleOnChange(event)}
+                    />
+                  )}
               </Col>
               <Col>
                 <br />
@@ -156,4 +204,4 @@ const mapToProps = (state) => {
   return ({ items });
 };
 
-export default connect(mapToProps)(ContactFormCreate);
+export default connect(mapToProps)(ContactForm);
