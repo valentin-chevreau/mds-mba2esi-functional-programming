@@ -19,15 +19,14 @@ const initialState = {
 };
 
 /**
- * Method to create a contact
- * items: state.items.concat(action.contact)
+ * Action to create a contact
  */
 const createContact = (state, action) => fromJS(state)
   .setIn(['items'], (state.items).concat(action.contact))
   .toJS();
 
 /**
- * Method to update a contact
+ * Action to update a contact
  */
 const updateContact = (state, action) => fromJS(state).update('items', (items) => items.map(
   (item) => {
@@ -44,18 +43,18 @@ const updateContact = (state, action) => fromJS(state).update('items', (items) =
 )).toJS();
 
 /**
-* Method to delete a contact
+* Action to delete a contact
 */
-const deleteContact = (state, action) => ({
-  items: state.items.filter((contact) => contact.id !== action.id)
-});
+const deleteContact = (state, action) => fromJS(state)
+  .setIn(['items'], (state.items).filter((contact) => contact.id !== action.id))
+  .toJS();
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionsTypes.UPDATE_CONTACT:
-      return updateContact(state, action);
     case actionsTypes.CREATE_CONTACT:
       return createContact(state, action);
+    case actionsTypes.UPDATE_CONTACT:
+      return updateContact(state, action);
     case actionsTypes.DELETE_CONTACT:
       return deleteContact(state, action);
     default:
