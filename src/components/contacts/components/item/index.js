@@ -1,109 +1,114 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  Button, Col, Form, ListGroup
+  Button, ListGroup
 } from 'react-bootstrap';
 import { deleteContact } from '../../actions';
+import ContactForm from '../form';
 
-const Contact = ({ dispatch, user }) => {
-  const {
-    firstname, lastname, phone, id, city
-  } = user;
+class Contact extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      update: false
+    };
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
 
-  return (
-    <ListGroup.Item className="mb-1">
-      <p>
-        {`${firstname} ${lastname}`}
-      </p>
-      <p>
-        {`${phone}`}
-      </p>
-      <Button
-        variant="secondary"
-        size="sm"
-        type="button"
-        className="mr-2"
-        onClick={
-          () => (
-            <Form>
-              <Form.Row>
-                <Form.Group>
-                  <Col>
-                    <Form.Label htmlFor="id">ID</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="id"
-                      id="id"
-                      value={id}
-                      autoComplete="id"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label htmlFor="firstname">Firstname</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="firstname"
-                      value={firstname}
-                      id="firstname"
-                      autoComplete="firstname"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label htmlFor="lastname">Lastname</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="lastname"
-                      value={lastname}
-                      id="lastname"
-                      autoComplete="lastname"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label htmlFor="phone">Phone</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="phone"
-                      value={phone}
-                      id="phone"
-                      autoComplete="phone"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label htmlFor="city">City</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="city"
-                      value={city}
-                      id="city"
-                      autoComplete="city"
-                    />
-                  </Col>
-                  <Col>
-                    <br />
-                    <Button
-                      variant="success"
-                      type="submit"
-                    >
-                      Submit
-                    </Button>
-                  </Col>
-                </Form.Group>
-              </Form.Row>
-            </Form>
+  handleUpdate() {
+    this.setState({
+      update: true
+    });
+  }
+
+  render() {
+    const {
+      dispatch, user
+    } = this.props;
+
+    const {
+      firstname, lastname, phone, id, city
+    } = user;
+
+    console.log(this.state);
+    console.log(this.props);
+
+    const { update } = this.state;
+
+    return (
+      <ListGroup.Item>
+        { update
+          ? <ContactForm update={user} />
+          : '' }
+        { update
+          ? (
+            <div>
+              <span>
+                {`${firstname} ${lastname}`}
+              </span>
+              <br />
+              <span>
+                {`${phone}`}
+              </span>
+              <br />
+              <span>
+                {`${city}`}
+              </span>
+              <br />
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="mr-2"
+                onClick={() => this.handleUpdate()}
+              >
+                Modifier
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                type="button"
+                onClick={() => dispatch(deleteContact(id))}
+              >
+                Supprimer
+              </Button>
+            </div>
           )
-        }
-      >
-        Modifier
-      </Button>
-      <Button
-        variant="danger"
-        size="sm"
-        type="button"
-        onClick={() => dispatch(deleteContact(id))}
-      >
-        Supprimer
-      </Button>
-    </ListGroup.Item>
-  );
-};
+          : (
+            <div>
+              <span>
+                {`${firstname} ${lastname}`}
+              </span>
+              <br />
+              <span>
+                {`${phone}`}
+              </span>
+              <br />
+              <span>
+                {`${city}`}
+              </span>
+              <br />
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="mr-2"
+                onClick={() => this.handleUpdate()}
+              >
+                Modifier
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                type="button"
+                onClick={() => dispatch(deleteContact(id))}
+              >
+                Supprimer
+              </Button>
+            </div>
+          )}
+      </ListGroup.Item>
+    );
+  }
+}
 
 export default Contact;

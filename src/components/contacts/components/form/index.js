@@ -15,7 +15,8 @@ class ContactForm extends Component {
       phone: '',
       city: ''
     };
-    console.log('This is initialState', this.state);
+    const { items } = this.props;
+    console.log('This is initialStateContact', items);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -74,7 +75,7 @@ class ContactForm extends Component {
                       defaultValue={update.id}
                       autoComplete="id"
                       onChange={(event) => this.handleOnChange(event)}
-                      readOnly
+                      autoFocus
                     />
                   )
                   : (
