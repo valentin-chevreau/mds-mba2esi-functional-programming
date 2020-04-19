@@ -29,77 +29,38 @@ class Contact extends Component {
       firstname, lastname, phone, id, city
     } = user;
 
-    console.log(this.state);
-    console.log(this.props);
-
     const { update } = this.state;
 
     return (
       <ListGroup.Item>
         { update
-          ? <ContactForm update={user} />
-          : '' }
-        { update
           ? (
             <div>
-              <span>
-                {`${firstname} ${lastname}`}
-              </span>
+              <ContactForm update={user} />
+              {`${firstname} ${lastname}`}
               <br />
-              <span>
-                {`${phone}`}
-              </span>
+              {`${phone}`}
               <br />
-              <span>
-                {`${city}`}
-              </span>
-              <br />
-              <Button
-                variant="secondary"
-                size="sm"
-                type="button"
-                className="mr-2"
-                onClick={() => this.handleUpdate()}
-              >
-                Modifier
-              </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                type="button"
-                onClick={() => dispatch(deleteContact(id))}
-              >
-                Supprimer
-              </Button>
+              {`${city}`}
             </div>
           )
           : (
             <div>
-              <span>
-                {`${firstname} ${lastname}`}
-              </span>
+              {`${firstname} ${lastname}`}
               <br />
-              <span>
-                {`${phone}`}
-              </span>
+              {`${phone}`}
               <br />
-              <span>
-                {`${city}`}
-              </span>
+              {`${city}`}
               <br />
               <Button
-                variant="secondary"
-                size="sm"
-                type="button"
+                variant="outline-secondary"
                 className="mr-2"
                 onClick={() => this.handleUpdate()}
               >
                 Modifier
               </Button>
               <Button
-                variant="danger"
-                size="sm"
-                type="button"
+                variant="outline-danger"
                 onClick={() => dispatch(deleteContact(id))}
               >
                 Supprimer

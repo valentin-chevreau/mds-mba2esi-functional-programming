@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Button, Form, Col
 } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import { createContact, updateContact } from '../../actions';
 
 class ContactForm extends Component {
@@ -15,8 +15,6 @@ class ContactForm extends Component {
       phone: '',
       city: ''
     };
-    const { items } = this.props;
-    console.log('This is initialStateContact', items);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -34,22 +32,19 @@ class ContactForm extends Component {
     } = this.state;
     this.dispatch = dispatch;
     if (update) {
-      if (update !== null) {
-        dispatch(updateContact({
-          id, firstname, lastname, phone, city
-        }));
-        this.setState({
-          update: false
-        });
-        event.preventDefault();
-      }
+      dispatch(updateContact({
+        id,
+        firstname,
+        lastname,
+        phone,
+        city
+      }));
     } else {
       dispatch(createContact({
         id, firstname, lastname, phone, city
       }));
-      event.preventDefault();
     }
-    console.log('submitState', this.state);
+    event.preventDefault();
   }
 
   render() {
@@ -86,6 +81,7 @@ class ContactForm extends Component {
                       defaultValue={id}
                       autoComplete="id"
                       onChange={(event) => this.handleOnChange(event)}
+                      autoFocus
                     />
                   )}
               </Col>
@@ -181,15 +177,29 @@ class ContactForm extends Component {
                       onChange={(event) => this.handleOnChange(event)}
                     />
                   )}
-              </Col>
-              <Col>
-                <br />
-                <Button
-                  variant="success"
-                  type="submit"
-                >
-                  Submit
-                </Button>
+                {
+                  update
+                    ? (
+                      <Button
+                        variant="outline-info"
+                        type="submit"
+                        className="sm mt-3"
+                        block
+                      >
+                        Mettre à jour
+                      </Button>
+                    )
+                    : (
+                      <Button
+                        variant="outline-info"
+                        type="submit"
+                        className="sm mt-3"
+                        block
+                      >
+                        Créer le contact
+                      </Button>
+                    )
+                }
               </Col>
             </Form.Group>
           </Form.Row>
