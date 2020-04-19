@@ -11,8 +11,8 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parserOptions: {
-    ecmaFeatures: {
+  "parserOptions": {
+    "ecmaFeatures": {
       jsx: true,
     },
     ecmaVersion: 2018,
@@ -21,7 +21,7 @@ module.exports = {
   plugins: [
     'react',
   ],
-  "rules": {
+  rules: {
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "react/prop-types": 0,
     "comma-dangle": ["error", {"functions": "ignore"}],
